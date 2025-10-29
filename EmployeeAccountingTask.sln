@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeAccountingTask", "EmployeeAccountingTask\EmployeeAccountingTask.csproj", "{154BCCE2-48C6-45BC-9719-A3C95E261ABD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{154BCCE2-48C6-45BC-9719-A3C95E261ABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{154BCCE2-48C6-45BC-9719-A3C95E261ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{154BCCE2-48C6-45BC-9719-A3C95E261ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{154BCCE2-48C6-45BC-9719-A3C95E261ABD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

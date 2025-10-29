@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/element-plus/dist/index.full.js"></script>
+    <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<div id="app">
+    <div class="main-left-side" @click=>
+        <div>
+            <el-dialog v-model="dialogEditVisible" title="Редактирование подразделения">
+                <p>Выбранное подразделение : {{selectedSubdivision.name}}</p>
+                <input v-model="subName" placeholder="Введите новое название подразделения"
+                       style="width: 100%;height: 25px"></input>
+                <template #footer>
+                    <el-button @click="saveEditedSubdivision">Сохранить</el-button>
+                </template>
+            </el-dialog>
+
+            <el-dialog v-model="dialogDeleteVisible" title="Удаление подразделения">
+                <p>Выбранное подразделение : {{selectedSubdivision.name}}</p>
+                <p>Вы действительно хотите удалить данное подразделение?</p>
+                <template #footer>
+                    <el-button @click="deleteSubdivision">Да</el-button>
+                </template>
+            </el-dialog>
+
+            <el-dialog v-model="dialogAddVisible" title="Добавление подразделения">
+                <p>Введите название для нового подразделения</p>
+                <input v-model="subName" placeholder="Введите название подразделения"
+                       style="width: 100%;height: 25px;"></input>
+                <p>Выберите родителя для нового подразделения</p>
+                <select v-model="selectedParent" style="width: 100%;height: 25px">
+                    <option disabled value="">Выберите подразделение</option>
+                    <option v-for="sub in allSubdivisions" :key="sub.idSubdivision" :value="sub">
+                        {{sub.nameSubdivision}}
+                    </option>
+                </select>
+                <template #footer>
+                    <el-button @click="addSubdivision(selectedParent?.idSubdivision ?? null,subName)">Добавить</el-button>
+                </template>
+            </el-dialog>
+            
+            <el-dialog v-model="dialogEditEmployeeVisible" title="Редактирование информации сотрудника">
+                <p>Выбранный сотрудник : {{selectedEmployee.fullname}}</p>
+                <p style="text-align: left">ФИО сотрудника:</p>
+                <input v-model="selectedEmployee.fullname" style="width: 96%;height: 25px;margin-left: 10px" 
+                       :value="selectedEmployee.fullname">
+                <p style="text-align: left">Должность сотрудника:</p>
+                <input v-model="selectedEmployee.position" style="width: 96%;height: 25px;margin-left: 10px" 
+                       :value="selectedEmployee.position">
+                <p style="text-align: left">Дата рождения сотрудника:</p>
+                <input v-model="selectedEmployee.datebirth" style="width: 96%;height: 25px;margin-left: 10px" 
+                       :value="selectedEmployee.datebirth">
+                <p style="text-align: left">Дата начала работы:</p>
+                <input v-model="selectedEmployee.startdate" style="width: 96%;height: 25px;margin-left: 10px" 
+                       :value="selectedEmployee.startdate">
+                <template #footer>
+                    <el-button 
+                            @click="saveEditedEmployee(selectedEmployee)">
+                        Добавить
+                    </el-button>
+                </template>
+            </el-dialog>
+            
+            <div v-if="menuVisible"
+                 class="context-menu"
+                 :style="{top: menuPositionY + 'px',left: menuPositionX + 'px'}"
+                 @click.stop>
+                <ul>
+                    <li @click="openMenuEditSubdivision">Редактировать</li>
+                    <li @click="openMenuDeleteSubdivision">Удалить</li>
+                </ul>
+            </div>
+
+            <p>Структура подразделений</p>
+            <ul>
+                <tree-item
+                        v-for="item in subdivisions"
+                        :key="item.id"
+                        :item="item"
+                        @select-subdivision="selectSubdivision"
+                        @contextmenu-node="openMenu">
+                </tree-item>
+            </ul>
+        </div>
+
+        <div class="main-left-side-footer">
+            <button @click="openMenuAddSubdivision">Добавить узел</button>
+        </div>
+
+    </div>
+    <div class="main-center-side">
+        <div v-if="selectedSubdivision && selectedSubdivision.employees">
+            <p style="text-align: center;font-size: 25px;margin-top: 10px">Подразделение
+                {{selectedSubdivision.name}} </p>
+            <div style="display: grid;grid-template-columns: repeat(3,1fr);justify-content: center;align-items: center;gap: 15px;margin: 10px">
+                <div class="emp-container" v-for="emp in selectedSubdivision.employees"
+                     :key="emp.id">
+                    <div class="emp-img">
+                        <img :src="'Images/' + emp.image" alt="Фото сотрудника"></img>
+                    </div>
+                    <div class="emp-text">
+                        ФИО - {{emp.fullname}} <br>
+                        Должность - {{emp.position}} <br>
+                        Дата рождения - {{emp.datebirth}} <br>
+                        Дата начала работы - {{emp.startdate}}
+                    </div>
+                    <div>
+                        <button @click="openMenuForEmployee(emp)"
+                                style="width: 100%;height: 25px;border-radius: 10px;border: none;background: black;color: white">
+                            Редактировать информацию
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="emp-info">
+                <p>Количество сотрудников - {{selectedSubdivision.employees.length}}</p>
+                <p>Средний возраст - {{averageAge}}</p>
+                <p>Среднее время работы - {{averageTimeWork}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
