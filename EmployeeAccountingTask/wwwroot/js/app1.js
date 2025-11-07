@@ -87,13 +87,21 @@ const App = {
         openMenuForEmployee(emp) {
             this.dialogEditEmployeeVisible = true;
             this.selectedEmployee = {...emp};
-            console.log(this.selectedEmployee);
         },
         async saveEditedEmployee(e) {
             if(!e.fullname || !e.position || !e.datebirth || !e.startdate || 
                 !e.fullname.trim().length || !e.position.trim().length || !e.datebirth.trim().length || !e.startdate.trim().length) {
                 ElementPlus.ElMessage({
                     message: 'Поля не могут быть пустыми!',
+                    type: 'error',
+                    duration: 3000
+                });
+                return;
+            }
+            console.log(e.datebirth > this.selectedEmployee.startdate);
+            if(e.datebirth > this.selectedEmployee.startdate){
+                ElementPlus.ElMessage({
+                    message: 'Дата рождения не может быть больше, чам дата начала работы!',
                     type: 'error',
                     duration: 3000
                 });
