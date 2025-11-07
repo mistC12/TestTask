@@ -97,7 +97,6 @@ const App = {
                     type: 'error',
                     duration: 3000
                 });
-                return;
             }
             const res = await Api.updateEmployee(e);
             if(res){
